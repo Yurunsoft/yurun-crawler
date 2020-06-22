@@ -1,0 +1,15 @@
+{
+    "name": "yurunsoft/crawler",
+    "type": "project",
+    "description": "yurun-crawler 是一个分布式高性能爬虫采集框架，基于 imi + Swoole 协程的常驻内存开发。",
+	"require": {
+		"yurunsoft/imi": "~1.0",
+        "yurunsoft/yurun-http": "^4.2",
+        "symfony/dom-crawler": "^5.1"
+	},
+    "autoload": {
+        "psr-4" : {
+			"Yurun\\Crawler\\" : "./src/"
+        }
+	}
+}
