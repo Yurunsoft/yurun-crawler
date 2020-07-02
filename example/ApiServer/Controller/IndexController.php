@@ -1,5 +1,5 @@
 <?php
-namespace Yurun\Crawler\ApiServer\Controller;
+namespace Yurun\CrawlerApp\ApiServer\Controller;
 
 use Imi\Controller\HttpController;
 use Imi\Server\View\Annotation\View;

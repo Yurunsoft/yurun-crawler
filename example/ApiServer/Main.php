@@ -1,5 +1,5 @@
 <?php
-namespace Yurun\Crawler\ApiServer;
+namespace Yurun\CrawlerApp\ApiServer;
 
 use Imi\Main\BaseMain;
 

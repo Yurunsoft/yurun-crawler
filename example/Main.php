@@ -1,9 +1,9 @@
 <?php
-namespace Yurun\Crawler;
+namespace Yurun\CrawlerApp;
 
-use Imi\Main\BaseMain;
+use Imi\Main\AppBaseMain;
 
-class Main extends BaseMain
+class Main extends AppBaseMain
 {
     public function __init()
     {
