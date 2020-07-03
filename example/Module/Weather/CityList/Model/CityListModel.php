@@ -1,5 +1,5 @@
 <?php
-namespace Yurun\CrawlerApp\Module\Weather\CityList;
+namespace Yurun\CrawlerApp\Module\Weather\CityList\Model;
 
 use Yurun\Crawler\Module\Parser\Annotation\JsonSelect;
 use Yurun\Crawler\Module\DataModel\Contract\IDataModel;

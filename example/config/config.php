@@ -13,6 +13,7 @@ return [
         'Yurun\CrawlerApp\Listener',
         'Yurun\CrawlerApp\Task',
         'Yurun\CrawlerApp\Tool',
+        'Yurun\CrawlerApp\Module',
     ],
 
     // 组件命名空间

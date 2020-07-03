@@ -11,7 +11,7 @@ use Yurun\Crawler\Module\Crawler\Contract\BaseCrawlerItem;
  * 城市列表采集
  * @CrawlerItem("WeatherCrawler")
  * @Downloader
- * @Parser(\Yurun\CrawlerApp\Module\Weather\CityList\CityListModel::class)
+ * @Parser(\Yurun\CrawlerApp\Module\Weather\CityList\Model\CityListModel::class)
  * @Processor("CityListProcessor")
  */
 class CityListCrawlerItem extends BaseCrawlerItem
