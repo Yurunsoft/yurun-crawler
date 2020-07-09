@@ -25,4 +25,11 @@ class Processor extends Base
      */
     public $class;
 
+    /**
+     * 处理器队列名
+     *
+     * @var string
+     */
+    public $queue = 'defaultProcessor';
+
 }

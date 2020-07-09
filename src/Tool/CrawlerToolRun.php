@@ -42,7 +42,7 @@ class CrawlerToolRun
      * 运行采集任务
      *
      * @Operation(name="run", co=false)
-     * @Arg(name="name", type=ArgType::ARRAY, required=true, comments="采集任务名称，支持多个，以半角逗号分割")
+     * @Arg(name="name", type=ArgType::ARRAY, default={}, comments="采集任务名称，支持多个，以半角逗号分割")
      * @Arg(name="process", type=ArgType::INT, comments="进程数量")
      * @Arg(name="co", type=ArgType::INT, comments="每个进程中的协程数量")
      * 
@@ -75,15 +75,16 @@ class CrawlerToolRun
         {
             throw new \RuntimeException('Please develop the crawler code before running the crawler task');
         }
+
+        // 运行中
+        $this->running = true;
+
         foreach($name as $beanName)
         {
             /** @var \Yurun\Crawler\Module\Crawler\Contract\ICrawler $bean */
             $bean = $this->crawlerManager->getBean($beanName);
             $bean->start();
         }
-
-        // 运行中
-        $this->running = true;
 
         // 启动所需进程
         $this->startProcesses();

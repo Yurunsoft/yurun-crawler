@@ -8,6 +8,7 @@ use Yurun\Crawler\Module\Parser\Annotation\DomSelect;
 use Yurun\Crawler\Module\DataModel\Contract\IDataModel;
 use Yurun\Crawler\Module\Parser\Contract\IParserHandler;
 use Yurun\Crawler\Module\Parser\Annotation\BaseParserAnnotation;
+use Yurun\Crawler\Module\Parser\Enum\DomSelectMethod;
 
 /**
  * Dom 解析器
@@ -45,7 +46,7 @@ class DomParser implements IParserHandler
      */
     public function parseDomSelect(ResponseInterface $response, DomSelect $parserAnnotation, $parentInstance = null, bool $isArray = false)
     {
-        if($parentInstance instanceof \phpQueryObject)
+        if($parentInstance instanceof \Symfony\Component\DomCrawler\Crawler)
         {
             $doc = $parentInstance;
         }
@@ -63,15 +64,20 @@ class DomParser implements IParserHandler
             return $doc;
         }
         $params = (array)$parserAnnotation->param;
+        if(DomSelectMethod::TEXT === $method && !$params)
+        {
+            $params = ['', true];
+        }
         if($isArray)
         {
             $result = [];
-            $doc->each(function(Crawler $doc) use(&$result, $method, $params){
-                $result[] = $doc->$method(...$params);
-            });
+            foreach($doc as $item)
+            {
+                $result[] = $item->$method(...$params);
+            }
             return $result;
         }
-        else
+        else if($doc->count() > 0)
         {
             return $doc->$method(...$params);
         }

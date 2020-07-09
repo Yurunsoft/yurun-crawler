@@ -215,4 +215,15 @@ abstract class BaseCrawlerItem implements ICrawlerItem
         return $result;
     }
 
+    /**
+     * 获取爬虫对象
+     *
+     * @return ICrawler
+     */
+    public function getCrawler(): ICrawler
+    {
+        $crawlerItemAnnotation = $this->getCrawlerItemAnnotation();
+        return App::getBean($crawlerItemAnnotation->class);
+    }
+
 }

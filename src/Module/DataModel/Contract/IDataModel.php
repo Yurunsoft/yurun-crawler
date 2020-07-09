@@ -6,5 +6,12 @@ namespace Yurun\Crawler\Module\DataModel\Contract;
  */
 interface IDataModel
 {
-    
+    /**
+     * 从数组加载数据
+     *
+     * @param array $array
+     * @return void
+     */
+    public function loadFromArray(array $array);
+
 }

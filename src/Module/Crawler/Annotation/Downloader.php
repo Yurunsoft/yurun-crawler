@@ -26,4 +26,11 @@ class Downloader extends Base
      */
     public $class = YurunHttpDownloader::class;
 
+    /**
+     * 下载器队列名
+     *
+     * @var string
+     */
+    public $queue = 'defaultDownloader';
+
 }

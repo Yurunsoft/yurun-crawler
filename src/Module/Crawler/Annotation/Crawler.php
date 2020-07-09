@@ -12,5 +12,11 @@ use Imi\Bean\Annotation\Parser;
  */
 class Crawler extends Base
 {
+    /**
+     * 等待上一次运行爬取任务执行完成后，才可以进行下一次
+     *
+     * @var boolean
+     */
+    public $waitComplete = false;
 
 }

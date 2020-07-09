@@ -30,8 +30,9 @@ class Parser implements IParser
         if($isArray)
         {
             $result = [];
-            foreach($parentInstance as $item)
+            foreach($parentInstance as $i => $item)
             {
+                var_dump($i, $item);
                 $result[] = $this->parse($response, $modelClass, $item, false);
             }
             return $result;
@@ -47,29 +48,11 @@ class Parser implements IParser
                     {
                         /** @var \Yurun\Crawler\Module\Parser\Contract\IParserHandler $parserHandler */
                         $parserHandler = App::getBean($annotation->parser);
-                        $propertyType = DocBlockUtil::getPropertyType($modelClass, $property);
-                        $propertyTypeIsArray = false !== strpos('[]', $propertyType);
-                        if($propertyTypeIsArray)
-                        {
-                            $propertyTypeClass = substr($propertyType, 0, -2);
-                        }
-                        else
-                        {
-                            $propertyTypeClass = $propertyType;
-                            $propertyTypeIsArray = 'array' === $propertyType;
-                        }
-                        if(false !== strpos($propertyTypeClass, '\\') && !class_exists($propertyTypeClass))
-                        {
-                            $newClass = Imi::getClassNamespace($modelClass) . '\\' . $propertyTypeClass;
-                            if(class_exists($newClass))
-                            {
-                                $propertyTypeClass = $newClass;
-                            }
-                        }
+                        $propertyType = DocBlockUtil::getPropertyType($modelClass, $property, $propertyTypeIsArray);
                         $parseResult = $parserHandler->parse($response, $annotation, $parentInstance, $propertyTypeIsArray);
-                        if(is_subclass_of($propertyTypeClass, IDataModel::class))
+                        if(is_subclass_of($propertyType, IDataModel::class))
                         {
-                            $model->$property = $this->parse($response, $propertyTypeClass, $parseResult, $propertyTypeIsArray);
+                            $model->$property = $this->parse($response, $propertyType, $parseResult, $propertyTypeIsArray);
                         }
                         else
                         {

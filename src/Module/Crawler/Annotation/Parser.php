@@ -24,4 +24,11 @@ class Parser extends Base
      */
     public $model;
 
+    /**
+     * 解析器队列名
+     *
+     * @var string
+     */
+    public $queue = 'defaultParser';
+
 }

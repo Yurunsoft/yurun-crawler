@@ -1,10 +1,12 @@
 <?php
 namespace Yurun\Crawler\Module\Processor\Consumer;
 
+use Imi\App;
 use Imi\Bean\Annotation\Bean;
 use Imi\Queue\Contract\IMessage;
 use Imi\Queue\Driver\IQueueDriver;
 use Imi\Queue\Service\BaseQueueConsumer;
+use Yurun\Crawler\Module\Processor\Model\ProcessorMessage;
 
 /**
  * 处理器消费者
@@ -22,7 +24,16 @@ class ProcessorConsumer extends BaseQueueConsumer
      */
     protected function consume(IMessage $message, IQueueDriver $queue)
     {
-
+        // 处理器消息处理
+        $processorMessage = new ProcessorMessage;
+        $processorMessage->loadFromJsonString($message->getMessage());
+        /** @var \Yurun\Crawler\Module\Crawler\Contract\BaseCrawler $crawler */
+        // $crawler = App::getBean($processorMessage->crawler);
+        /** @var \Yurun\Crawler\Module\Crawler\Contract\BaseCrawlerItem $crawlerItem */
+        $crawlerItem = App::getBean($processorMessage->crawlerItem);
+        // 处理
+        $crawlerItem->process($processorMessage->dataModel);
+        $queue->success($message);
     }
 
 }

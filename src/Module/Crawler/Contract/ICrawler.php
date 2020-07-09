@@ -13,4 +13,11 @@ interface ICrawler
      */
     public function start();
 
+    /**
+     * 运行爬取任务
+     *
+     * @return void
+     */
+    public function run();
+
 }
