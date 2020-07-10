@@ -2,28 +2,15 @@
 namespace Yurun\Crawler\Module\Processor\Model;
 
 use Imi\Bean\BeanFactory;
-use Yurun\Crawler\Contract\BaseQueueMessage;
+use Yurun\Crawler\Module\Crawler\Enum\QueueMessageType;
 use Yurun\Crawler\Module\DataModel\Contract\IDataModel;
+use Yurun\Crawler\Module\Crawler\Contract\BaseCrawlerQueueMessage;
 
 /**
  * 处理器消息
  */
-class ProcessorMessage extends BaseQueueMessage
+class ProcessorMessage extends BaseCrawlerQueueMessage
 {
-    /**
-     * 爬虫名称
-     *
-     * @var string
-     */
-    public $crawler;
-
-    /**
-     * 爬虫项名称
-     *
-     * @var string
-     */
-    public $crawlerItem;
-
     /**
      * 数据模型类名
      *
@@ -47,6 +34,7 @@ class ProcessorMessage extends BaseQueueMessage
 
     public function __construct(string $crawler = null, string $crawlerItem = null, IDataModel $dataModel = null, array $data = [])
     {
+        $this->messageType = QueueMessageType::PROCESSOR;
         $this->crawler = $crawler;
         $this->crawlerItem = $crawlerItem;
         $this->dataModel = $dataModel;

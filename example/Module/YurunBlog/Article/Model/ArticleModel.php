@@ -13,7 +13,7 @@ class ArticleModel extends BaseDataModel
     /**
      * 标题
      * 
-     * @DomSelect(selector="h1", method=DomSelectMethod::TEXT)
+     * @DomSelect(selector=".article-view h1", method=DomSelectMethod::TEXT)
      *
      * @var string
      */

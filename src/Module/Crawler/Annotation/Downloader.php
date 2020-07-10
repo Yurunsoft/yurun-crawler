@@ -33,4 +33,29 @@ class Downloader extends Base
      */
     public $queue = 'defaultDownloader';
 
+    /**
+     * 限流数量
+     * 
+     * 小于等于0时不限制
+     *
+     * @var integer
+     */
+    public $limit;
+
+    /**
+     * 限流单位时间，默认为：秒(second)
+     * 
+     * 支持：microsecond、millisecond、second、minute、hour、day、week、month、year
+     *
+     * @var string
+     */
+    public $limitUnit = 'second';
+
+    /**
+     * 限流等待时间，单位：秒
+     *
+     * @var int
+     */
+    public $limitWait = 60;
+
 }

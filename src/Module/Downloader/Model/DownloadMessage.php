@@ -1,27 +1,14 @@
 <?php
 namespace Yurun\Crawler\Module\Downloader\Model;
 
-use Yurun\Crawler\Contract\BaseQueueMessage;
+use Yurun\Crawler\Module\Crawler\Enum\QueueMessageType;
+use Yurun\Crawler\Module\Crawler\Contract\BaseCrawlerQueueMessage;
 
 /**
  * 下载消息
  */
-class DownloadMessage extends BaseQueueMessage
+class DownloadMessage extends BaseCrawlerQueueMessage
 {
-    /**
-     * 爬虫名称
-     *
-     * @var string
-     */
-    public $crawler;
-
-    /**
-     * 爬虫项名称
-     *
-     * @var string
-     */
-    public $crawlerItem;
-
     /**
      * 请求方法
      *
@@ -59,6 +46,7 @@ class DownloadMessage extends BaseQueueMessage
 
     public function __construct(string $crawler = null, string $crawlerItem = null, string $url = null, string $method = null, string $body = null, array $headers = [], array $data = [])
     {
+        $this->messageType = QueueMessageType::DOWNLOADER;
         $this->crawler = $crawler;
         $this->crawlerItem = $crawlerItem;
         $this->method = $method;

@@ -32,7 +32,6 @@ class Parser implements IParser
             $result = [];
             foreach($parentInstance as $i => $item)
             {
-                var_dump($i, $item);
                 $result[] = $this->parse($response, $modelClass, $item, false);
             }
             return $result;

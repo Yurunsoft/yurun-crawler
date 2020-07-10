@@ -16,7 +16,7 @@ class ArticleProcessor implements IProcessor
     /**
      * 处理数据模型
      *
-     * @param \Yurun\CrawlerApp\Module\YurunBlog\ArticleList\Model\ArticleListModel $data
+     * @param \Yurun\CrawlerApp\Module\YurunBlog\Article\Model\ArticleModel $data
      * @return void
      */
     public function process(IDataModel $data)
@@ -35,7 +35,8 @@ class ArticleProcessor implements IProcessor
         //     }
         //     $yurunBlogCrawler->pushDownloadMessage('ArticleListCrawlerItem', $url);
         // }
-        throw new \RuntimeException('GG');
+        // throw new \RuntimeException('GG');
+        var_dump($data->title);
     }
 
 }

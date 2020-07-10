@@ -21,7 +21,6 @@ class ArticleListProcessor implements IProcessor
      */
     public function process(IDataModel $data)
     {
-        var_dump($data);
         Log::info('Article count:' . count($data->list));
         Log::info('next:' . $data->nextUrl);
         /** @var \Yurun\CrawlerApp\Module\YurunBlog\YurunBlogCrawler $yurunBlogCrawler */

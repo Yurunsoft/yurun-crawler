@@ -128,4 +128,6 @@ return [
         'defaultPool'   =>  'redis',
     ],
 
+    // 限流键名前缀
+    'ratelimitPrefix'   =>  imiGetEnv('RATELIMIT_PREFIX', 'yurun:crawler:'),
 ];

@@ -8,5 +8,6 @@ return [
     // 组件命名空间
     'components'    =>  [
         'Queue'     =>  'Imi\Queue',
+        'RateLimit' =>  'Imi\RateLimit',
     ],
 ];

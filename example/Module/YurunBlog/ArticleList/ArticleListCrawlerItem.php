@@ -12,7 +12,7 @@ use Yurun\Crawler\Module\Crawler\Contract\BaseCrawlerItem;
  * 文章列表采集
  * @Bean("ArticleListCrawlerItem")
  * @CrawlerItem("YurunBlogCrawler")
- * @Downloader
+ * @Downloader(limit=3)
  * @Parser(\Yurun\CrawlerApp\Module\YurunBlog\ArticleList\Model\ArticleListModel::class)
  * @Processor("ArticleListProcessor")
  */

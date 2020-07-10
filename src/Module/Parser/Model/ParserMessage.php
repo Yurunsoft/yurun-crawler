@@ -2,27 +2,14 @@
 namespace Yurun\Crawler\Module\Parser\Model;
 
 use Psr\Http\Message\ResponseInterface;
-use Yurun\Crawler\Contract\BaseQueueMessage;
+use Yurun\Crawler\Module\Crawler\Enum\QueueMessageType;
+use Yurun\Crawler\Module\Crawler\Contract\BaseCrawlerQueueMessage;
 
 /**
  * 解析器消息
  */
-class ParserMessage extends BaseQueueMessage
+class ParserMessage extends BaseCrawlerQueueMessage
 {
-    /**
-     * 爬虫名称
-     *
-     * @var string
-     */
-    public $crawler;
-
-    /**
-     * 爬虫项名称
-     *
-     * @var string
-     */
-    public $crawlerItem;
-
     /**
      * 响应主体内容
      *
@@ -53,6 +40,7 @@ class ParserMessage extends BaseQueueMessage
 
     public function __construct(string $crawler = null, string $crawlerItem = null, string $body = null, array $headers = [], int $statusCode = 200, array $data = [])
     {
+        $this->messageType = QueueMessageType::PARSER;
         $this->crawler = $crawler;
         $this->crawlerItem = $crawlerItem;
         $this->body = $body;
