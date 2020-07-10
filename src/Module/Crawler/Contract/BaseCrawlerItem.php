@@ -34,7 +34,7 @@ abstract class BaseCrawlerItem implements ICrawlerItem
         $downloaderAnnotation = $this->getDownloaderAnnotation();
         /** @var \Yurun\Crawler\Module\Downloader\Contract\IDownloader $diownloader */
         $diownloader = App::getBean($downloaderAnnotation->class);
-        $response = $diownloader->download($request);
+        $response = $diownloader->download($this, $request);
         return $this->afterDownload($request, $response);
     }
 
@@ -78,7 +78,7 @@ abstract class BaseCrawlerItem implements ICrawlerItem
         }
         /** @var \Yurun\Crawler\Module\Parser\Contract\IParser $parser */
         $parser = App::getBean('CrawlerParser');
-        $data = $parser->parse($response, $modelClass);
+        $data = $parser->parse($this, $response, $modelClass);
         return $this->afterParse($response, $modelClass, $data);
     }
 
@@ -117,9 +117,13 @@ abstract class BaseCrawlerItem implements ICrawlerItem
     {
         $this->beforeProcess($data);
         $processorAnnotation = $this->getProcessorAnnotation();
-        /** @var \Yurun\Crawler\Module\Processor\Contract\IProcessor $processor */
-        $processor = App::getBean($processorAnnotation->class);
-        $processor->process($data);
+        // 注解定义的处理器
+        foreach((array)$processorAnnotation->class as $class)
+        {
+            /** @var \Yurun\Crawler\Module\Processor\Contract\IProcessor $processor */
+            $processor = App::getBean($class);
+            $processor->process($this, $data);
+        }
         $this->afterProcess($data);
     }
 

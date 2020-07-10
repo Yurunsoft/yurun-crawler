@@ -1,9 +1,10 @@
 <?php
 namespace Yurun\Crawler\Module\Parser\Handler;
 
-use Psr\Http\Message\ResponseInterface;
-use Imi\Util\ArrayData;
 use Imi\Util\Imi;
+use Imi\Util\ArrayData;
+use Psr\Http\Message\ResponseInterface;
+use Yurun\Crawler\Module\Crawler\Contract\ICrawlerItem;
 use Yurun\Crawler\Module\Parser\Annotation\RegularMatch;
 use Yurun\Crawler\Module\Parser\Contract\IParserHandler;
 use Yurun\Crawler\Module\Parser\Annotation\BaseParserAnnotation;
@@ -16,13 +17,14 @@ class RegularParser implements IParserHandler
     /**
      * 解析响应数据为数据模型
      *
+     * @param \Yurun\Crawler\Module\Crawler\Contract\ICrawlerItem $crawlerItem
      * @param \Psr\Http\Message\ResponseInterface $response
      * @param \Yurun\Crawler\Module\Parser\Annotation\BaseParserAnnotation $parserAnnotation
      * @param mixed $parentInstance
      * @param boolean $isArray
      * @return mixed
      */
-    public function parse(ResponseInterface $response, BaseParserAnnotation $parserAnnotation, $parentInstance = null, bool $isArray = false)
+    public function parse(ICrawlerItem $crawlerItem, ResponseInterface $response, BaseParserAnnotation $parserAnnotation, $parentInstance = null, bool $isArray = false)
     {
         switch(get_class($parserAnnotation))
         {

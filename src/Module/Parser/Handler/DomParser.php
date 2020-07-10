@@ -5,10 +5,11 @@ use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\DomCrawler\Crawler;
 use Imi\Bean\Annotation\AnnotationManager;
 use Yurun\Crawler\Module\Parser\Annotation\DomSelect;
+use Yurun\Crawler\Module\Parser\Enum\DomSelectMethod;
+use Yurun\Crawler\Module\Crawler\Contract\ICrawlerItem;
 use Yurun\Crawler\Module\DataModel\Contract\IDataModel;
 use Yurun\Crawler\Module\Parser\Contract\IParserHandler;
 use Yurun\Crawler\Module\Parser\Annotation\BaseParserAnnotation;
-use Yurun\Crawler\Module\Parser\Enum\DomSelectMethod;
 
 /**
  * Dom 解析器
@@ -18,13 +19,14 @@ class DomParser implements IParserHandler
     /**
      * 解析响应数据为数据模型
      *
+     * @param \Yurun\Crawler\Module\Crawler\Contract\ICrawlerItem $crawlerItem
      * @param \Psr\Http\Message\ResponseInterface $response
      * @param \Yurun\Crawler\Module\Parser\Annotation\BaseParserAnnotation $parserAnnotation
      * @param mixed $parentInstance
      * @param boolean $isArray
      * @return mixed
      */
-    public function parse(ResponseInterface $response, BaseParserAnnotation $parserAnnotation, $parentInstance = null, bool $isArray = false)
+    public function parse(ICrawlerItem $crawlerItem, ResponseInterface $response, BaseParserAnnotation $parserAnnotation, $parentInstance = null, bool $isArray = false)
     {
         switch(get_class($parserAnnotation))
         {

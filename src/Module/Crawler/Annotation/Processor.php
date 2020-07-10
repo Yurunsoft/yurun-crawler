@@ -19,9 +19,9 @@ class Processor extends Base
     protected $defaultFieldName = 'class';
 
     /**
-     * 处理器类名
+     * 处理器类名或类名数组
      *
-     * @var string
+     * @var string|string
      */
     public $class;
 

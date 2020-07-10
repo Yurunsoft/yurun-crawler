@@ -2,8 +2,9 @@
 namespace Yurun\CrawlerApp\Module\YurunBlog\Article;
 
 use Imi\App;
-use Imi\Bean\Annotation\Bean;
 use Imi\Log\Log;
+use Imi\Bean\Annotation\Bean;
+use Yurun\Crawler\Module\Crawler\Contract\ICrawlerItem;
 use Yurun\Crawler\Module\DataModel\Contract\IDataModel;
 use Yurun\Crawler\Module\Processor\Contract\IProcessor;
 
@@ -16,10 +17,11 @@ class ArticleProcessor implements IProcessor
     /**
      * 处理数据模型
      *
+     * @param \Yurun\Crawler\Module\Crawler\Contract\ICrawlerItem $crawlerItem
      * @param \Yurun\CrawlerApp\Module\YurunBlog\Article\Model\ArticleModel $data
      * @return void
      */
-    public function process(IDataModel $data)
+    public function process(ICrawlerItem $crawlerItem, IDataModel $data)
     {
         // var_dump($data);
         // Log::info('Article count:' . count($data->list));

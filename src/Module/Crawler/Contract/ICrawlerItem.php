@@ -3,6 +3,7 @@ namespace Yurun\Crawler\Module\Crawler\Contract;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Yurun\Crawler\Module\Crawler\Contract\ICrawler;
 use Yurun\Crawler\Module\DataModel\Contract\IDataModel;
 
 /**
@@ -33,5 +34,12 @@ interface ICrawlerItem
      * @return void
      */
     public function process(IDataModel $data);
+
+    /**
+     * 获取爬虫对象
+     *
+     * @return ICrawler
+     */
+    public function getCrawler(): ICrawler;
 
 }

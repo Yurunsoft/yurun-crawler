@@ -39,6 +39,13 @@ class CrawlerToolRun
     protected $crawlerManager;
 
     /**
+     * 临时进程对象
+     *
+     * @var \Swoole\Process
+     */
+    protected $tmpProcess;
+
+    /**
      * 运行采集任务
      *
      * @Operation(name="run", co=false)
@@ -50,44 +57,47 @@ class CrawlerToolRun
      */
     public function run(array $name, ?int $process, ?int $co)
     {
-        // 启用一键协程化
-        Runtime::enableCoroutine();
+        $this->tmpProcess = new Process(function(){});
+        go(function() use($name, $process, $co){
+            // 启用一键协程化
+            Runtime::enableCoroutine();
 
-        // 终止信号监听
-        \Imi\Util\Process::signal(SIGTERM, function(){
-            $this->running = false;
+            // 终止信号监听
+            \Imi\Util\Process::signal(SIGTERM, function(){
+                $this->running = false;
+            });
+
+            // 设置进程类型
+            App::set(ProcessAppContexts::PROCESS_TYPE, ProcessType::PROCESS);
+
+            // 定时任务需要的 Unix Socket 文件定义
+            $cronSock = '/tmp/yurun-crawler-' . md5(App::getNamespace() . '#' . implode(',', $name)) . '.sock';
+            App::set('cronSock', $cronSock);
+            Args::set('cronSock', $cronSock);
+
+            // 名称处理
+            if(!$name)
+            {
+                $name = $this->crawlerManager->getAllNames();
+            }
+            if(!$name)
+            {
+                throw new \RuntimeException('Please develop the crawler code before running the crawler task');
+            }
+
+            // 运行中
+            $this->running = true;
+
+            foreach($name as $beanName)
+            {
+                /** @var \Yurun\Crawler\Module\Crawler\Contract\ICrawler $bean */
+                $bean = $this->crawlerManager->getBean($beanName);
+                $bean->start();
+            }
+
+            // 启动所需进程
+            $this->startProcesses();
         });
-
-        // 设置进程类型
-        App::set(ProcessAppContexts::PROCESS_TYPE, ProcessType::PROCESS);
-
-        // 定时任务需要的 Unix Socket 文件定义
-        $cronSock = '/tmp/yurun-crawler-' . md5(App::getNamespace() . '#' . implode(',', $name)) . '.sock';
-        App::set('cronSock', $cronSock);
-        Args::set('cronSock', $cronSock);
-
-        // 名称处理
-        if(!$name)
-        {
-            $name = $this->crawlerManager->getAllNames();
-        }
-        if(!$name)
-        {
-            throw new \RuntimeException('Please develop the crawler code before running the crawler task');
-        }
-
-        // 运行中
-        $this->running = true;
-
-        foreach($name as $beanName)
-        {
-            /** @var \Yurun\Crawler\Module\Crawler\Contract\ICrawler $bean */
-            $bean = $this->crawlerManager->getBean($beanName);
-            $bean->start();
-        }
-
-        // 启动所需进程
-        $this->startProcesses();
     }
 
     /**
@@ -132,15 +142,14 @@ class CrawlerToolRun
             } while($this->running);
         });
 
-        $tmpProcess = new Process(function(){});
         // 启动定时任务
-        go(function() use(&$running, $tmpProcess){
+        go(function() use(&$running){
             /** @var \Imi\Log\ErrorLog $errorLog */
             $errorLog = App::getBean('ErrorLog');
             try {
                 /** @var CronProcess $cronProcess */
                 $cronProcess = App::getBean(CronProcess::class);
-                $cronProcess->run($tmpProcess);
+                $cronProcess->run($this->tmpProcess);
             } catch(\Throwable $th) {
                 $errorLog->onException($th);
             }
