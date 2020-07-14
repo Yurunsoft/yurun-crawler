@@ -37,4 +37,11 @@ class ModelStorage extends Base
      */
     public $fields;
 
+    /**
+     * 用于判断，重复数据不入库的模型字段
+     *
+     * @var array
+     */
+    public $uniqueFields = [];
+
 }

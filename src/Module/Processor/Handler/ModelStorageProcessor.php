@@ -29,8 +29,11 @@ class ModelStorageProcessor implements IProcessor
         {
             return;
         }
-        $fields = $modelStorage->fields;
-        if($fields)
+        if(!is_subclass_of($modelStorage->model, \Imi\Model\BaseModel::class))
+        {
+            throw new \InvalidArgumentException(sprintf('%s is not a model class', $modelStorage->model));
+        }
+        if($fields = $modelStorage->fields)
         {
             $model = ($modelStorage->model)::newInstance();
             foreach($data as $k => $v)
@@ -45,13 +48,23 @@ class ModelStorageProcessor implements IProcessor
                 }
             }
         }
-        else if(is_subclass_of($modelStorage->model, \Imi\Model\BaseModel::class))
+        else
         {
             $model = ($modelStorage->model)::newInstance($data);
         }
-        else
+        // 重复数据不入库判断
+        if($uniqueFields = $modelStorage->uniqueFields)
         {
-            throw new \InvalidArgumentException(sprintf('%s is not a model class', $modelStorage->model));
+            /** @var \Imi\Db\Query\Interfaces\IQuery $query */
+            $query = ($modelStorage->model)::dbQuery();
+            foreach($uniqueFields as $field)
+            {
+                $query->where($field, '=', $model->$field);
+            }
+            if(1 == $query->fieldRaw('1')->limit(1)->select()->getScalar())
+            {
+                return;
+            }
         }
         $model->insert();
     }

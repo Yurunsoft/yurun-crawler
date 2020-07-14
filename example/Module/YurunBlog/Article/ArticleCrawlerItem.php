@@ -16,7 +16,7 @@ use Yurun\Crawler\Module\Processor\Annotation\ModelStorage;
  * @Downloader(limit=3)
  * @Parser(\Yurun\CrawlerApp\Module\YurunBlog\Article\Model\ArticleModel::class)
  * @Processor({"ArticleProcessor", "ModelStorageProcessor"})
- * @ModelStorage(\Yurun\CrawlerApp\Module\YurunBlog\Model\Article::class)
+ * @ModelStorage(model=\Yurun\CrawlerApp\Module\YurunBlog\Model\Article::class, uniqueFields={"title"})
  */
 class ArticleCrawlerItem extends BaseCrawlerItem
 {

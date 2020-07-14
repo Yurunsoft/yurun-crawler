@@ -11,7 +11,7 @@ use Yurun\Crawler\Module\Crawler\Annotation\CrawlerCron;
 /**
  * 宇润博客采集爬虫
  * @Bean("YurunBlogCrawler")
- * @Crawler
+ * @Crawler(waitComplete=true)
  * @CrawlerCron(hour="12n", force=true)
  */
 class YurunBlogCrawler extends BaseCrawler
