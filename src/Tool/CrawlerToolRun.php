@@ -50,15 +50,13 @@ class CrawlerToolRun
      *
      * @Operation(name="run", co=false)
      * @Arg(name="name", type=ArgType::ARRAY, default={}, comments="采集任务名称，支持多个，以半角逗号分割")
-     * @Arg(name="process", type=ArgType::INT, comments="进程数量")
-     * @Arg(name="co", type=ArgType::INT, comments="每个进程中的协程数量")
      * 
      * @return void
      */
-    public function run(array $name, ?int $process, ?int $co)
+    public function run(array $name)
     {
         $this->tmpProcess = new Process(function(){});
-        go(function() use($name, $process, $co){
+        go(function() use($name){
             // 启用一键协程化
             Runtime::enableCoroutine();
 

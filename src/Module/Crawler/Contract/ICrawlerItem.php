@@ -1,7 +1,7 @@
 <?php
 namespace Yurun\Crawler\Module\Crawler\Contract;
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Yurun\Crawler\Module\Crawler\Contract\ICrawler;
 use Yurun\Crawler\Module\DataModel\Contract\IDataModel;
@@ -14,10 +14,10 @@ interface ICrawlerItem
     /**
      * 下载
      *
-     * @param \Psr\Http\Message\RequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function download(RequestInterface $request): ResponseInterface;
+    public function download(ServerRequestInterface $request): ResponseInterface;
 
     /**
      * 解析

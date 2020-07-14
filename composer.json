@@ -5,9 +5,9 @@
 	"require": {
         "php": ">=7.1",
         "ext-swoole": ">=4.4",
-		"yurunsoft/imi": "dev-dev",
+		"yurunsoft/imi": "~1.2",
         "yurunsoft/yurun-http": "^4.2",
-        "imiphp/imi-queue": "dev-master",
+        "imiphp/imi-queue": "~1.0",
         "imiphp/imi-rate-limit": "^1.0",
         "phpdocumentor/reflection-docblock": "^4.3",
         "symfony/dom-crawler": "^4.4",

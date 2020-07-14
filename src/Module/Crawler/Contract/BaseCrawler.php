@@ -19,6 +19,7 @@ use Yurun\Crawler\Module\Crawler\Annotation\CrawlerCron;
 use Yurun\Crawler\Module\Downloader\Model\DownloadMessage;
 use Yurun\Crawler\Module\Processor\Model\ProcessorMessage;
 use Yurun\Crawler\Module\Crawler\Annotation\Parser\CrawlerItemParser;
+use Yurun\Crawler\Module\Crawler\Annotation\ProxyPool;
 
 /**
  * 爬虫基类
@@ -124,6 +125,16 @@ abstract class BaseCrawler implements ICrawler
             $downloader = new Downloader;
         }
         return $downloader;
+    }
+
+    /**
+     * 获取代理 IP 池注解
+     *
+     * @return \Yurun\Crawler\Module\Crawler\Annotation\ProxyPool|null
+     */
+    public function getProxyPoolAnnotation(): ?ProxyPool
+    {
+        return AnnotationManager::getClassAnnotations($this->realClassName, ProxyPool::class)[0] ?? null;
     }
 
     /**
