@@ -36,7 +36,7 @@ class JsonParser implements IParserHandler
     }
 
     /**
-     * Dom 解析
+     * JSON 解析
      *
      * @param \Psr\Http\Message\ResponseInterface $response
      * @param \Yurun\Crawler\Module\Parser\Annotation\JsonSelect $parserAnnotation
@@ -67,7 +67,7 @@ class JsonParser implements IParserHandler
         {
             return $jsonData;
         }
-        $selectorMuiltLevel = false === strpos($selector, '.');
+        $selectorMuiltLevel = false !== strpos($selector, '.');
         if($selectorMuiltLevel)
         {
             $parsedSelector = Imi::parseDotRule($selector);

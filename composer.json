@@ -14,7 +14,8 @@
         "symfony/css-selector": "^4.4"
 	},
     "require-dev": {
-        "yurunsoft/ide-helper": "~1.0"
+        "yurunsoft/ide-helper": "~1.0",
+        "phpunit/phpunit": "^7"
     },
     "autoload": {
         "psr-4" : {
@@ -23,10 +24,14 @@
 	},
     "autoload-dev": {
         "psr-4" : {
-			"Yurun\\CrawlerApp\\" : "./example/"
+			"Yurun\\CrawlerApp\\" : "./example/",
+			"Yurun\\Crawler\\Test\\" : "./tests/Test/"
         }
 	},
     "prefer-stable": true,
+    "scripts": {
+      "test": "./tests/run"
+    },
     "extra": {
         "ide-helper": {
             "list": [

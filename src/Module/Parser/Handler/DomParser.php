@@ -75,7 +75,7 @@ class DomParser implements IParserHandler
             $result = [];
             foreach($doc as $item)
             {
-                $result[] = $item->$method(...$params);
+                $result[] = (new Crawler($item))->$method(...$params);
             }
             return $result;
         }

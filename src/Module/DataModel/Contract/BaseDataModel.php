@@ -5,6 +5,7 @@ use Imi\Util\Imi;
 use Imi\Bean\BeanFactory;
 use Yurun\Crawler\Util\DocBlockUtil;
 use Imi\Bean\Annotation\AnnotationManager;
+use Imi\Util\Traits\TNotRequiredDataToProperty;
 use Yurun\Crawler\Module\Parser\Annotation\BaseParserAnnotation;
 
 /**
@@ -12,6 +13,8 @@ use Yurun\Crawler\Module\Parser\Annotation\BaseParserAnnotation;
  */
 abstract class BaseDataModel implements IDataModel
 {
+    use TNotRequiredDataToProperty;
+
     /**
      * 从数组加载数据
      *

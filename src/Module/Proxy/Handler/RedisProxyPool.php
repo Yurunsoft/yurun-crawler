@@ -72,8 +72,12 @@ class RedisProxyPool implements IProxyPool
     public function getNextProxy(): Proxy
     {
         $result = RedisManager::getInstance($this->poolName)->lindex($this->key, $this->index++);
+        if(false === $result)
+        {
+            $result = RedisManager::getInstance($this->poolName)->lindex($this->key, $this->index = 0);
+        }
         $formatInstance = $this->formatInstance;
-        return $formatInstance ? $formatInstance->decode($result) : $result;
+        return Proxy::createFromArray($formatInstance ? $formatInstance->decode($result) : $result);
     }
 
     /**
@@ -94,7 +98,7 @@ LUA
             throw new EmptyProxyPoolException;
         }
         $formatInstance = $this->formatInstance;
-        return $formatInstance ? $formatInstance->decode($result) : $result;
+        return Proxy::createFromArray($formatInstance ? $formatInstance->decode($result) : $result);
     }
 
     /**
@@ -108,7 +112,7 @@ LUA
         $formatInstance = $this->formatInstance;
         foreach(RedisManager::getInstance($this->poolName)->lrange($this->key, 0, -1) as $item)
         {
-            $list[] = $formatInstance ? $formatInstance->decode($item) : $item;
+            $list[] = Proxy::createFromArray($formatInstance ? $formatInstance->decode($item) : $item);
         }
         return $list;
     }
@@ -159,6 +163,16 @@ LUA
             $data = $proxy;
         }
         RedisManager::getInstance($this->poolName)->lrem($this->key, $data, 1);
+    }
+
+    /**
+     * 清空代理 IP 池
+     *
+     * @return void
+     */
+    public function clear()
+    {
+        RedisManager::getInstance($this->poolName)->del($this->key);
     }
 
 }

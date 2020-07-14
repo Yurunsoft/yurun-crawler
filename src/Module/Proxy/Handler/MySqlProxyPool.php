@@ -18,10 +18,10 @@ class MySqlProxyPool implements IProxyPool
      */
     const CREATE_TABLE_SQL = <<<SQL
 CREATE TABLE `{table}`  (
-  `ip` varchar(39) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'IP 地址',
+  `host` varchar(39) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主机地址',
   `port` smallint(5) UNSIGNED NOT NULL COMMENT '端口号',
-  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名',
-  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
+  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '用户名',
+  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '密码',
   `type` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '类型'
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '代理IP池表-v1.0.0';
 SQL;
@@ -161,9 +161,26 @@ SQL
         $query = Db::query($this->poolName)->from($this->table);
         foreach($proxy as $k => $v)
         {
-            $query->where($k, '=', $v);
+            if(null === $v)
+            {
+                $query->where($k, 'is', $v);
+            }
+            else
+            {
+                $query->where($k, '=', $v);
+            }
         }
         $query->delete();
+    }
+
+    /**
+     * 清空代理 IP 池
+     *
+     * @return void
+     */
+    public function clear()
+    {
+        Db::getInstance()->exec('TRUNCATE `' . $this->table . '`');
     }
 
 }

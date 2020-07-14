@@ -36,7 +36,7 @@ class RegularParser implements IParserHandler
     }
 
     /**
-     * Dom 解析
+     * 正则 解析
      *
      * @param \Psr\Http\Message\ResponseInterface $response
      * @param \Yurun\Crawler\Module\Parser\Annotation\RegularMatch $parserAnnotation

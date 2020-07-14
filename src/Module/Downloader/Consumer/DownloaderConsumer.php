@@ -5,8 +5,8 @@ use Imi\App;
 use Imi\Bean\Annotation\Bean;
 use Imi\Queue\Contract\IMessage;
 use Imi\Queue\Driver\IQueueDriver;
-use Yurun\Util\YurunHttp\Http\Request;
 use Imi\Queue\Service\BaseQueueConsumer;
+use Imi\Util\Http\ServerRequest;
 use Yurun\Crawler\Module\Downloader\Model\DownloadMessage;
 
 /**
@@ -33,7 +33,7 @@ class DownloaderConsumer extends BaseQueueConsumer
         /** @var \Yurun\Crawler\Module\Crawler\Contract\BaseCrawlerItem $crawlerItem */
         $crawlerItem = App::getBean($downloadMessage->crawlerItem);
         // 构建请求对象
-        $request = new Request($downloadMessage->url, $downloadMessage->headers, $downloadMessage->body, $downloadMessage->method);
+        $request = new ServerRequest($downloadMessage->url, $downloadMessage->headers, $downloadMessage->body, $downloadMessage->method);
         // 下载
         $response = $crawlerItem->download($request);
         // 推送解析器消息

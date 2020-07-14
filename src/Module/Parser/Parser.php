@@ -32,7 +32,7 @@ class Parser implements IParser
         if($isArray)
         {
             $result = [];
-            foreach($parentInstance as $i => $item)
+            foreach($parentInstance as $item)
             {
                 $result[] = $this->parse($crawlerItem, $response, $modelClass, $item, false);
             }

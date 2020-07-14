@@ -52,4 +52,11 @@ interface IProxyPool
      */
     public function remove(Proxy $proxy);
 
+    /**
+     * 清空代理 IP 池
+     *
+     * @return void
+     */
+    public function clear();
+
 }
