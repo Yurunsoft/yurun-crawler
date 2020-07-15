@@ -32,13 +32,15 @@ class ModelStorage extends Base
      * 字段映射列表
      * 
      * 将 DataModel 中的 a 赋值给模型类的 b：'a' => 'b'
+     * 
+     * 为空则为全部字段都赋值
      *
      * @var array
      */
     public $fields;
 
     /**
-     * 用于判断，重复数据不入库的模型字段
+     * 用于判断，重复数据不入库的模型字段，为空则不判断
      *
      * @var array
      */

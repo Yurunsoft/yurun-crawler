@@ -1,8 +1,33 @@
 # yurun-crawler
 
-yurun-crawler 是一个分布式高性能爬虫采集框架，基于 imi + Swoole 协程的常驻内存开发。
+[![Latest Version](https://img.shields.io/packagist/v/yurunsoft/php-crawler.svg)](https://packagist.org/packages/yurunsoft/php-crawler)
+[![Travis](https://img.shields.io/travis/Yurunsoft/php-crawler.svg)](https://travis-ci.org/Yurunsoft/php-crawler)
+[![Php Version](https://img.shields.io/badge/php-%3E=7.1-brightgreen.svg)](https://secure.php.net/)
+[![Swoole Version](https://img.shields.io/badge/swoole-%3E=4.3.0-brightgreen.svg)](https://github.com/swoole/swoole-src)
+[![imi Doc](https://img.shields.io/badge/docs-passing-green.svg)](https://doc.imiphp.com)
+[![imi License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/Yurunsoft/php-crawler/blob/master/LICENSE)
 
-> 分布式，高性能，一把梭！
+## 介绍
+
+宇润爬虫框架(Yurun Crawler) 是一个低代码、高性能、分布式爬虫采集框架，基于 imi 框架开发，运行在 Swoole 常驻内存的协程环境。
+
+为什么会开发这个框架？最近有爬虫需求，调研了一些市面上现有的 PHP 爬虫框架功能都十分简陋，需要编写的重复代码极多。
+
+Yurun Crawler 的目标是能够用最少的代码，方便快速地实现爬虫采集功能。
+
+Yurun Crawler 的愿景是成为宇宙第一爬虫框架，以后提到爬虫就想到 Yurun Crawler 可以一把梭实现！
+
+## 功能特性
+
+* 低代码，几乎不需要编写代码，大部分逻辑依靠注解实现
+* 高性能，基于 [imi](https://www.imiphp.com/) + [Swoole](https://www.swoole.com/) 常驻内存及协程实现
+* 分布式，采集的流程由消息队列推动，依靠 Redis 等中间件实现纯天然的分布式特性
+* 支持下载器并发限流
+* 内置解析能力强，支持：Dom 解析、正则、JSON
+* 代理 IP 池，支持：MySQL、Redis
+* 支持定时采集
+* 支持模型存储
+* 易扩展
 
 ## 概念
 
