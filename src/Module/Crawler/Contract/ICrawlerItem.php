@@ -2,10 +2,14 @@
 namespace Yurun\Crawler\Module\Crawler\Contract;
 
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Yurun\Crawler\Module\Crawler\Annotation\Parser;
 use Yurun\Crawler\Module\Crawler\Contract\ICrawler;
 use Yurun\Crawler\Module\Parser\Model\ParserParams;
+use Yurun\Crawler\Module\Crawler\Annotation\Processor;
+use Yurun\Crawler\Module\Crawler\Annotation\ProxyPool;
+use Yurun\Crawler\Module\Crawler\Annotation\Downloader;
 use Yurun\Crawler\Module\DataModel\Contract\IDataModel;
+use Yurun\Crawler\Module\Crawler\Annotation\CrawlerItem;
 use Yurun\Crawler\Module\Downloader\Model\DownloadParams;
 use Yurun\Crawler\Module\Processor\Model\ProcessorParams;
 
@@ -44,5 +48,40 @@ interface ICrawlerItem
      * @return ICrawler
      */
     public function getCrawler(): ICrawler;
+
+    /**
+     * 获取采集项目注解列表
+     *
+     * @return \Yurun\Crawler\Module\Crawler\Annotation\CrawlerItem
+     */
+    public function getCrawlerItemAnnotation(): CrawlerItem;
+
+    /**
+     * 获取下载器注解
+     *
+     * @return \Yurun\Crawler\Module\Crawler\Annotation\Downloader
+     */
+    public function getDownloaderAnnotation(): Downloader;
+
+    /**
+     * 获取代理 IP 池注解
+     *
+     * @return \Yurun\Crawler\Module\Crawler\Annotation\ProxyPool|null
+     */
+    public function getProxyPoolAnnotation(): ?ProxyPool;
+
+    /**
+     * 获取解析器注解
+     *
+     * @return \Yurun\Crawler\Module\Crawler\Annotation\Parser
+     */
+    public function getParserAnnotation(): Parser;
+
+    /**
+     * 获取处理器注解
+     *
+     * @return \Yurun\Crawler\Module\Crawler\Annotation\Processor
+     */
+    public function getProcessorAnnotation(): Processor;
 
 }
