@@ -24,6 +24,35 @@ use Yurun\Crawler\Module\Processor\Model\ProcessorParams;
 abstract class BaseCrawlerItem implements ICrawlerItem
 {
     /**
+     * 本对象真实的类名
+     *
+     * @var string
+     */
+    protected $realClassName;
+
+    /**
+     * 爬虫名称
+     *
+     * @var string
+     */
+    protected $name;
+
+    public function __construct()
+    {
+        $this->realClassName = $className = BeanFactory::getObjectClass($this);
+        /** @var \Imi\Bean\Annotation\Bean $bean */
+        $bean = AnnotationManager::getClassAnnotations($className, \Imi\Bean\Annotation\Bean::class)[0];
+        if($bean)
+        {
+            $this->name = $bean->name;
+        }
+        else
+        {
+            $this->name = $className;
+        }
+    }
+
+    /**
      * 下载
      *
      * @param \Yurun\Crawler\Module\Downloader\Model\DownloadParams $params
@@ -261,6 +290,16 @@ abstract class BaseCrawlerItem implements ICrawlerItem
     {
         $crawlerItemAnnotation = $this->getCrawlerItemAnnotation();
         return App::getBean($crawlerItemAnnotation->class);
+    }
+
+    /**
+     * 获取爬虫项名称
+     *
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
     }
 
 }

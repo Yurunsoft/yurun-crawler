@@ -84,4 +84,11 @@ interface ICrawlerItem
      */
     public function getProcessorAnnotation(): Processor;
 
+    /**
+     * 获取爬虫项名称
+     *
+     * @return string
+     */
+    public function getName(): string;
+
 }
