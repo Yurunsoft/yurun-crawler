@@ -64,7 +64,7 @@ class Parser implements IParser
                 /** @var \Yurun\Crawler\Module\Parser\Contract\IParserHandler $parserHandler */
                 $parserHandler = App::getBean($parserAnnotation->parser);
                 $propertyType = DocBlockUtil::getPropertyType($modelClass, $property, $propertyTypeIsArray);
-                $parseResult = $parserHandler->parse($crawlerItem, $response, $parserAnnotation, $parentInstance, $propertyTypeIsArray);
+                $parseResult = $parserHandler->parse($crawlerItem, $response, $parserAnnotation, $parentInstance, false);
                 if(is_subclass_of($propertyType, IDataModel::class))
                 {
                     $model->$property = $this->parse($crawlerItem, $response, $propertyType, $parseResult, $propertyTypeIsArray);
