@@ -43,11 +43,10 @@ class ArticleCrawlerItem extends BaseCrawlerItem
 /**
  * 下载内容前置操作
  *
- * @param \Psr\Http\Message\ServerRequestInterface $request
- * @param \Yurun\Crawler\Module\Proxy\Model\Proxy|null $proxy
+ * @param \Yurun\Crawler\Module\Downloader\Model\DownloadParams $params
  * @return \Psr\Http\Message\ResponseInterface|null
  */
-protected function beforeDownload(ServerRequestInterface &$request, Proxy &$proxy = null): ?ResponseInterface
+protected function beforeDownload(DownloadParams $params): ?ResponseInterface
 {
     return null;
 }
@@ -55,11 +54,10 @@ protected function beforeDownload(ServerRequestInterface &$request, Proxy &$prox
 /**
  * 下载内容后置操作
  *
- * @param \Psr\Http\Message\ServerRequestInterface $request
- * @param \Psr\Http\Message\ResponseInterface $response
+ * @param \Yurun\Crawler\Module\Downloader\Model\DownloadParams $params
  * @return \Psr\Http\Message\ResponseInterface
  */
-protected function afterDownload(ServerRequestInterface &$request, ResponseInterface $response): ResponseInterface
+protected function afterDownload(DownloadParams $params, ResponseInterface $response): ResponseInterface
 {
     return $response;
 }
@@ -67,11 +65,11 @@ protected function afterDownload(ServerRequestInterface &$request, ResponseInter
 /**
  * 解析前置操作
  *
- * @param \Psr\Http\Message\ResponseInterface $response
+ * @param \Yurun\Crawler\Module\Parser\Model\ParserParams $params
  * @param string $modelClass
  * @return \Yurun\Crawler\Module\DataModel\Contract\IDataModel|null
  */
-protected function beforeParse(ResponseInterface $response, string $modelClass): ?IDataModel
+protected function beforeParse(ParserParams $params, string $modelClass): ?IDataModel
 {
     return null;
 }
@@ -79,12 +77,12 @@ protected function beforeParse(ResponseInterface $response, string $modelClass):
 /**
  * 解析后置操作
  *
- * @param \Psr\Http\Message\ResponseInterface $response
+ * @param \Yurun\Crawler\Module\Parser\Model\ParserParams $params
  * @param string $modelClass
  * @param \Yurun\Crawler\Module\DataModel\Contract\IDataModel $data
  * @return \Yurun\Crawler\Module\DataModel\Contract\IDataModel|null
  */
-protected function afterParse(ResponseInterface $response, string $modelClass, IDataModel $data): IDataModel
+protected function afterParse(ParserParams $params, string $modelClass, IDataModel $data): IDataModel
 {
     return $data;
 }
@@ -92,10 +90,10 @@ protected function afterParse(ResponseInterface $response, string $modelClass, I
 /**
  * 处理前置操作
  *
- * @param \Yurun\Crawler\Module\DataModel\Contract\IDataModel $data
+ * @param \Yurun\Crawler\Module\Processor\Model\ProcessorParams $params
  * @return void
  */
-protected function beforeProcess(IDataModel $data)
+protected function beforeProcess(ProcessorParams $params)
 {
 
 }
@@ -103,10 +101,10 @@ protected function beforeProcess(IDataModel $data)
 /**
  * 处理后置操作
  *
- * @param \Yurun\Crawler\Module\DataModel\Contract\IDataModel $data
+ * @param \Yurun\Crawler\Module\Processor\Model\ProcessorParams $params
  * @return void
  */
-protected function afterProcess(IDataModel $data)
+protected function afterProcess(ProcessorParams $params)
 {
 
 }

@@ -4,16 +4,19 @@ namespace Yurun\Crawler\Module\Crawler\Contract;
 use Imi\App;
 use Imi\Bean\BeanFactory;
 use InvalidArgumentException;
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Imi\Bean\Annotation\AnnotationManager;
+use Yurun\Crawler\Module\Proxy\Model\Proxy;
+use Psr\Http\Message\ServerRequestInterface;
 use Yurun\Crawler\Module\Crawler\Annotation\Parser;
+use Yurun\Crawler\Module\Parser\Model\ParserParams;
 use Yurun\Crawler\Module\Crawler\Annotation\Processor;
 use Yurun\Crawler\Module\Crawler\Annotation\ProxyPool;
 use Yurun\Crawler\Module\Crawler\Annotation\Downloader;
 use Yurun\Crawler\Module\DataModel\Contract\IDataModel;
 use Yurun\Crawler\Module\Crawler\Annotation\CrawlerItem;
-use Yurun\Crawler\Module\Proxy\Model\Proxy;
+use Yurun\Crawler\Module\Downloader\Model\DownloadParams;
+use Yurun\Crawler\Module\Processor\Model\ProcessorParams;
 
 /**
  * 采集项目基类
@@ -23,38 +26,37 @@ abstract class BaseCrawlerItem implements ICrawlerItem
     /**
      * 下载
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Yurun\Crawler\Module\Downloader\Model\DownloadParams $params
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function download(ServerRequestInterface $request): ResponseInterface
+    public function download(DownloadParams $params): ResponseInterface
     {
-        $response = $this->beforeDownload($request, $proxy);
+        $response = $this->beforeDownload($params);
         if($response)
         {
             return $response;
         }
-        if(!$proxy && $proxyPoolAnnotation = $this->getProxyPoolAnnotation())
+        if(!$params->proxy && $proxyPoolAnnotation = $this->getProxyPoolAnnotation())
         {
             // 处理代理 IP
             /** @var \Yurun\Crawler\Module\Proxy\Contract\IProxyPool $proxyPool */
             $proxyPool = App::getBean($proxyPoolAnnotation->class, ...$proxyPoolAnnotation->args);
-            $proxy = $proxyPool->{'get' . $proxyPoolAnnotation->method . 'Proxy'}();
+            $params->proxy = $proxyPool->{'get' . $proxyPoolAnnotation->method . 'Proxy'}();
         }
         $downloaderAnnotation = $this->getDownloaderAnnotation();
         /** @var \Yurun\Crawler\Module\Downloader\Contract\IDownloader $diownloader */
         $diownloader = App::getBean($downloaderAnnotation->class);
-        $response = $diownloader->download($this, $request, $proxy);
-        return $this->afterDownload($request, $response);
+        $response = $diownloader->download($this, $params->request, $params->proxy);
+        return $this->afterDownload($params, $response);
     }
 
     /**
      * 下载内容前置操作
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Yurun\Crawler\Module\Proxy\Model\Proxy|null $proxy
+     * @param \Yurun\Crawler\Module\Downloader\Model\DownloadParams $params
      * @return \Psr\Http\Message\ResponseInterface|null
      */
-    protected function beforeDownload(ServerRequestInterface &$request, Proxy &$proxy = null): ?ResponseInterface
+    protected function beforeDownload(DownloadParams $params): ?ResponseInterface
     {
         return null;
     }
@@ -62,11 +64,10 @@ abstract class BaseCrawlerItem implements ICrawlerItem
     /**
      * 下载内容后置操作
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param \Yurun\Crawler\Module\Downloader\Model\DownloadParams $params
      * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function afterDownload(ServerRequestInterface &$request, ResponseInterface $response): ResponseInterface
+    protected function afterDownload(DownloadParams $params, ResponseInterface $response): ResponseInterface
     {
         return $response;
     }
@@ -74,32 +75,32 @@ abstract class BaseCrawlerItem implements ICrawlerItem
     /**
      * 解析
      *
-     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param \Yurun\Crawler\Module\Parser\Model\ParserParams $params
      * @return \Yurun\Crawler\Module\DataModel\Contract\IDataModel
      */
-    public function parse(ResponseInterface $response): IDataModel
+    public function parse(ParserParams $params): IDataModel
     {
         $parserAnnotation = $this->getParserAnnotation();
         $modelClass = $parserAnnotation->model;
-        $data = $this->beforeParse($response, $modelClass);
+        $data = $this->beforeParse($params, $modelClass);
         if($data)
         {
             return $data;
         }
         /** @var \Yurun\Crawler\Module\Parser\Contract\IParser $parser */
         $parser = App::getBean('CrawlerParser');
-        $data = $parser->parse($this, $response, $modelClass);
-        return $this->afterParse($response, $modelClass, $data);
+        $data = $parser->parse($this, $params->response, $modelClass);
+        return $this->afterParse($params, $modelClass, $data);
     }
 
     /**
      * 解析前置操作
      *
-     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param \Yurun\Crawler\Module\Parser\Model\ParserParams $params
      * @param string $modelClass
      * @return \Yurun\Crawler\Module\DataModel\Contract\IDataModel|null
      */
-    protected function beforeParse(ResponseInterface $response, string $modelClass): ?IDataModel
+    protected function beforeParse(ParserParams $params, string $modelClass): ?IDataModel
     {
         return null;
     }
@@ -107,12 +108,12 @@ abstract class BaseCrawlerItem implements ICrawlerItem
     /**
      * 解析后置操作
      *
-     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param \Yurun\Crawler\Module\Parser\Model\ParserParams $params
      * @param string $modelClass
      * @param \Yurun\Crawler\Module\DataModel\Contract\IDataModel $data
      * @return \Yurun\Crawler\Module\DataModel\Contract\IDataModel|null
      */
-    protected function afterParse(ResponseInterface $response, string $modelClass, IDataModel $data): IDataModel
+    protected function afterParse(ParserParams $params, string $modelClass, IDataModel $data): IDataModel
     {
         return $data;
     }
@@ -120,30 +121,30 @@ abstract class BaseCrawlerItem implements ICrawlerItem
     /**
      * 处理
      *
-     * @param \Yurun\Crawler\Module\DataModel\Contract\IDataModel $data
+     * @param \Yurun\Crawler\Module\Processor\Model\ProcessorParams $params
      * @return void
      */
-    public function process(IDataModel $data)
+    public function process(ProcessorParams $params)
     {
-        $this->beforeProcess($data);
+        $this->beforeProcess($params);
         $processorAnnotation = $this->getProcessorAnnotation();
         // 注解定义的处理器
         foreach((array)$processorAnnotation->class as $class)
         {
             /** @var \Yurun\Crawler\Module\Processor\Contract\IProcessor $processor */
             $processor = App::getBean($class);
-            $processor->process($this, $data);
+            $processor->process($this, $params->dataModel);
         }
-        $this->afterProcess($data);
+        $this->afterProcess($params);
     }
 
     /**
      * 处理前置操作
      *
-     * @param \Yurun\Crawler\Module\DataModel\Contract\IDataModel $data
+     * @param \Yurun\Crawler\Module\Processor\Model\ProcessorParams $params
      * @return void
      */
-    protected function beforeProcess(IDataModel $data)
+    protected function beforeProcess(ProcessorParams $params)
     {
 
     }
@@ -151,10 +152,10 @@ abstract class BaseCrawlerItem implements ICrawlerItem
     /**
      * 处理后置操作
      *
-     * @param \Yurun\Crawler\Module\DataModel\Contract\IDataModel $data
+     * @param \Yurun\Crawler\Module\Processor\Model\ProcessorParams $params
      * @return void
      */
-    protected function afterProcess(IDataModel $data)
+    protected function afterProcess(ProcessorParams $params)
     {
 
     }

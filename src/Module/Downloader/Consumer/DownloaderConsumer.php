@@ -4,9 +4,10 @@ namespace Yurun\Crawler\Module\Downloader\Consumer;
 use Imi\App;
 use Imi\Bean\Annotation\Bean;
 use Imi\Queue\Contract\IMessage;
+use Imi\Util\Http\ServerRequest;
 use Imi\Queue\Driver\IQueueDriver;
 use Imi\Queue\Service\BaseQueueConsumer;
-use Imi\Util\Http\ServerRequest;
+use Yurun\Crawler\Module\Downloader\Model\DownloadParams;
 use Yurun\Crawler\Module\Downloader\Model\DownloadMessage;
 
 /**
@@ -32,12 +33,14 @@ class DownloaderConsumer extends BaseQueueConsumer
         $crawler = App::getBean($downloadMessage->crawler);
         /** @var \Yurun\Crawler\Module\Crawler\Contract\BaseCrawlerItem $crawlerItem */
         $crawlerItem = App::getBean($downloadMessage->crawlerItem);
+        $downloadParams = new DownloadParams;
+        $downloadParams->data = $downloadMessage->data;
         // 构建请求对象
-        $request = new ServerRequest($downloadMessage->url, $downloadMessage->headers, $downloadMessage->body, $downloadMessage->method);
+        $downloadParams->request = new ServerRequest($downloadMessage->url, $downloadMessage->headers, $downloadMessage->body, $downloadMessage->method);
         // 下载
-        $response = $crawlerItem->download($request);
+        $response = $crawlerItem->download($downloadParams);
         // 推送解析器消息
-        $crawler->pushParserMessage($downloadMessage->crawlerItem, $response);
+        $crawler->pushParserMessage($downloadMessage->crawlerItem, $response, $downloadParams->data);
         $queue->success($message);
     }
 
