@@ -23,6 +23,6 @@ class DateTime extends Base
      *
      * @var string
      */
-    public $format;
+    public $format = 'Y-m-d H:i:s';
 
 }
