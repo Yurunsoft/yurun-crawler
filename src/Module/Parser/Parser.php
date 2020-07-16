@@ -8,6 +8,8 @@ use Yurun\Crawler\Util\DocBlockUtil;
 use Psr\Http\Message\ResponseInterface;
 use Imi\Bean\Annotation\AnnotationManager;
 use Yurun\Crawler\Module\Parser\Contract\IParser;
+use Yurun\Crawler\Module\Parser\Annotation\DateTime;
+use Yurun\Crawler\Module\Parser\Annotation\Timestamp;
 use Yurun\Crawler\Module\Crawler\Contract\ICrawlerItem;
 use Yurun\Crawler\Module\DataModel\Contract\IDataModel;
 use Yurun\Crawler\Module\Parser\Annotation\BaseParserAnnotation;
@@ -43,24 +45,41 @@ class Parser implements IParser
             $model = new $modelClass;
             foreach(AnnotationManager::getPropertiesAnnotations($modelClass) as $property => $annotations)
             {
+                $parserAnnotation = $timestampAnnotation = $dateTimeAnnotation = null;
                 foreach($annotations as $annotation)
                 {
                     if($annotation instanceof BaseParserAnnotation)
                     {
-                        /** @var \Yurun\Crawler\Module\Parser\Contract\IParserHandler $parserHandler */
-                        $parserHandler = App::getBean($annotation->parser);
-                        $propertyType = DocBlockUtil::getPropertyType($modelClass, $property, $propertyTypeIsArray);
-                        $parseResult = $parserHandler->parse($crawlerItem, $response, $annotation, $parentInstance, $propertyTypeIsArray);
-                        if(is_subclass_of($propertyType, IDataModel::class))
-                        {
-                            $model->$property = $this->parse($crawlerItem, $response, $propertyType, $parseResult, $propertyTypeIsArray);
-                        }
-                        else
-                        {
-                            $model->$property = $parseResult;
-                        }
-                        break;
+                        $parserAnnotation = $annotation;
                     }
+                    else if($annotation instanceof Timestamp)
+                    {
+                        $timestampAnnotation = $annotation;
+                    }
+                    else if($annotation instanceof DateTime)
+                    {
+                        $dateTimeAnnotation = $annotation;
+                    }
+                }
+                /** @var \Yurun\Crawler\Module\Parser\Contract\IParserHandler $parserHandler */
+                $parserHandler = App::getBean($parserAnnotation->parser);
+                $propertyType = DocBlockUtil::getPropertyType($modelClass, $property, $propertyTypeIsArray);
+                $parseResult = $parserHandler->parse($crawlerItem, $response, $parserAnnotation, $parentInstance, $propertyTypeIsArray);
+                if(is_subclass_of($propertyType, IDataModel::class))
+                {
+                    $model->$property = $this->parse($crawlerItem, $response, $propertyType, $parseResult, $propertyTypeIsArray);
+                }
+                else if($timestampAnnotation)
+                {
+                    $model->$property = date($timestampAnnotation->format, $parseResult);
+                }
+                else if($dateTimeAnnotation)
+                {
+                    $model->$property = date($dateTimeAnnotation->format, strtotime($parseResult));
+                }
+                else
+                {
+                    $model->$property = $parseResult;
                 }
             }
             return $model;
