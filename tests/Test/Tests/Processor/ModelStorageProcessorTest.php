@@ -16,6 +16,7 @@ class ModelStorageProcessorTest extends TestCase
         $crawlerItem = App::getBean('ArticleCrawlerItem');
         $data = new ArticleModel;
         $data->title = 'test';
+        $data->content = 'imi niubi';
         $modelStorageProcessor = new ModelStorageProcessor;
         $modelStorageProcessor->process($crawlerItem, $data);
         $this->assertEquals(1, Article::dbQuery()->whereEx(['title' => 'test'])->count());
