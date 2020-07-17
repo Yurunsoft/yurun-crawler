@@ -1,11 +1,11 @@
 # yurun-crawler
 
-[![Latest Version](https://img.shields.io/packagist/v/yurunsoft/php-crawler.svg)](https://packagist.org/packages/yurunsoft/php-crawler)
-[![Travis](https://img.shields.io/travis/Yurunsoft/php-crawler.svg)](https://travis-ci.org/Yurunsoft/php-crawler)
+[![Latest Version](https://img.shields.io/packagist/v/yurunsoft/crawler.svg)](https://packagist.org/packages/yurunsoft/crawler)
+[![Travis](https://img.shields.io/travis/Yurunsoft/crawler.svg)](https://travis-ci.org/Yurunsoft/crawler)
 [![Php Version](https://img.shields.io/badge/php-%3E=7.1-brightgreen.svg)](https://secure.php.net/)
 [![Swoole Version](https://img.shields.io/badge/swoole-%3E=4.3.0-brightgreen.svg)](https://github.com/swoole/swoole-src)
 [![imi Doc](https://img.shields.io/badge/docs-passing-green.svg)](https://doc.imiphp.com)
-[![imi License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/Yurunsoft/php-crawler/blob/master/LICENSE)
+[![imi License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/Yurunsoft/crawler/blob/master/LICENSE)
 
 ## 介绍
 
