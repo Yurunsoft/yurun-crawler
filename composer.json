@@ -1,7 +1,7 @@
 {
     "name": "yurunsoft/crawler",
     "type": "library",
-    "description": "yurun-crawler 是一个分布式高性能爬虫采集框架，基于 imi + Swoole 协程的常驻内存开发。",
+    "description": "宇润爬虫框架(Yurun Crawler) 是一个低代码、高性能、分布式爬虫采集框架，这可能是最一把梭的爬虫框架。",
 	"require": {
         "php": ">=7.1",
         "ext-swoole": ">=4.4",
