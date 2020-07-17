@@ -10,6 +10,7 @@
   * [爬虫项](base/start/crawlerItem.md)
   * [数据模型](base/start/dataModel.md)
   * [处理器](base/start/processor.md)
+* [运行采集任务](base/run.md)
 
 ## 功能特性
 
