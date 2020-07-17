@@ -17,6 +17,7 @@ class ModelStorageProcessorTest extends TestCase
         $data = new ArticleModel;
         $data->title = 'test';
         $data->content = 'imi niubi';
+        $data->time = '2020-07-17 16:58:00';
         $modelStorageProcessor = new ModelStorageProcessor;
         $modelStorageProcessor->process($crawlerItem, $data);
         $this->assertEquals(1, Article::dbQuery()->whereEx(['title' => 'test'])->count());
