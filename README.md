@@ -15,6 +15,8 @@ Yurun Crawler 基于 imi 框架开发，运行在 Swoole 常驻内存的协程�
 
 为什么会开发这个框架？遇上有爬虫相关需求，调研了一些市面上现有的 PHP 爬虫框架，甚至是其它语言的爬虫框架，功能都十分简陋，需要编写的重复代码极多，不够一把梭。
 
+开发手册：<https://doc.yurunsoft.com/yurun-crawler/>
+
 Demo Example: <https://github.com/Yurunsoft/yurun-crawler-example>
 
 ### 目标

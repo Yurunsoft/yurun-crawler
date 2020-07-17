@@ -1,6 +1,7 @@
 {
     "name": "yurunsoft/crawler",
     "type": "library",
+    "license": "MIT",
     "description": "宇润爬虫框架(Yurun Crawler) 是一个低代码、高性能、分布式爬虫采集框架，这可能是最一把梭的爬虫框架。",
 	"require": {
         "php": ">=7.1",
