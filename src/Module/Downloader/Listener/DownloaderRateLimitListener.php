@@ -34,7 +34,7 @@ class DownloaderRateLimitListener implements IConsumerBeforeConsumeListener
                 return;
             }
             $limit = $downloaderAnnotation->limit;
-            RateLimiter::limitBlock(Config::get('@app.ratelimitPrefix') . $e->queue->getName(), $limit, null, $downloaderAnnotation->limitWait, $limit, $downloaderAnnotation->limitUnit);
+            RateLimiter::limitBlock(Config::get('@app.ratelimitPrefix') . $e->queue->getName() . ':' . $crawlerItem->getName(), $limit, null, $downloaderAnnotation->limitWait, $limit, $downloaderAnnotation->limitUnit);
         }
     }
 
