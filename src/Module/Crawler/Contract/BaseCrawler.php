@@ -231,6 +231,10 @@ abstract class BaseCrawler implements ICrawler
         $downloaderAnnotation = $crawlerItemInstance->getDownloaderAnnotation();
         $message = new Message;
         $message->setMessage($downloadMessage);
+        if($downloaderAnnotation->timeout > 0)
+        {
+            $message->setWorkingTimeout($downloaderAnnotation->timeout);
+        }
         return Queue::getQueue($downloaderAnnotation->queue)->push($message);
     }
 
@@ -250,6 +254,10 @@ abstract class BaseCrawler implements ICrawler
         $parserAnnotation = $crawlerItemInstance->getParserAnnotation();
         $message = new Message;
         $message->setMessage($parserMessage);
+        if($parserAnnotation->timeout > 0)
+        {
+            $message->setWorkingTimeout($parserAnnotation->timeout);
+        }
         return Queue::getQueue($parserAnnotation->queue)->push($message);
     }
 
@@ -269,6 +277,10 @@ abstract class BaseCrawler implements ICrawler
         $processorAnnotation = $crawlerItemInstance->getProcessorAnnotation();
         $message = new Message;
         $message->setMessage($processorMessage);
+        if($processorAnnotation->timeout > 0)
+        {
+            $message->setWorkingTimeout($processorAnnotation->timeout);
+        }
         return Queue::getQueue($processorAnnotation->queue)->push($message);
     }
 

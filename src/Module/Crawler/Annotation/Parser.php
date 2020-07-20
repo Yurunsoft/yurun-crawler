@@ -31,4 +31,11 @@ class Parser extends Base
      */
     public $queue = 'defaultParser';
 
+    /**
+     * 单个工作超时时间，单位：秒
+     *
+     * @var float
+     */
+    public $timeout = 60;
+
 }

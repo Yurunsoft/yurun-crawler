@@ -141,6 +141,7 @@ queue|下载器队列名|defaultDownloader
 limit|限流数量，小于等于0时不限制|`null`
 limitUnit|限流单位时间，默认为：秒(second)；支持：microsecond、millisecond、second、minute、hour、day、week、month、year|`limitUnit`
 limitWait|限流等待时间，单位：秒|60
+timeout|单个工作超时时间，单位：秒|60
 
 ### @Parser
 
@@ -154,6 +155,7 @@ limitWait|限流等待时间，单位：秒|60
 -|-|-
 model|模型类名|
 queue|解析器队列名|defaultParser
+timeout|单个工作超时时间，单位：秒|60
 
 ### @Processor
 
@@ -167,3 +169,4 @@ queue|解析器队列名|defaultParser
 -|-|-
 class|处理器类名或类名数组|
 queue|处理器队列名|defaultProcessor
+timeout|单个工作超时时间，单位：秒|60

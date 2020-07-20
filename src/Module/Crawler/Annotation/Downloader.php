@@ -58,4 +58,11 @@ class Downloader extends Base
      */
     public $limitWait = 60;
 
+    /**
+     * 单个工作超时时间，单位：秒
+     *
+     * @var float
+     */
+    public $timeout = 60;
+
 }
