@@ -71,11 +71,17 @@ class Parser implements IParser
                 }
                 else if($timestampAnnotation)
                 {
-                    $model->$property = date($timestampAnnotation->format, $parseResult);
+                    if(is_numeric($parseResult))
+                    {
+                        $model->$property = date($timestampAnnotation->format, $parseResult);
+                    }
                 }
                 else if($dateTimeAnnotation)
                 {
-                    $model->$property = date($dateTimeAnnotation->format, strtotime($parseResult));
+                    if(is_string($parseResult))
+                    {
+                        $model->$property = date($dateTimeAnnotation->format, strtotime($parseResult));
+                    }
                 }
                 else
                 {
