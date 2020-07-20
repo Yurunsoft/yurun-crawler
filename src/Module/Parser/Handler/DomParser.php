@@ -83,7 +83,6 @@ class DomParser implements IParserHandler
         {
             return $doc->$method(...$params);
         }
-        return $doc;
     }
 
 }
