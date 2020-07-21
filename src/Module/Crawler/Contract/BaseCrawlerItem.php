@@ -73,9 +73,9 @@ abstract class BaseCrawlerItem implements ICrawlerItem
             $params->proxy = $proxyPool->{'get' . $proxyPoolAnnotation->method . 'Proxy'}();
         }
         $downloaderAnnotation = $this->getDownloaderAnnotation();
-        /** @var \Yurun\Crawler\Module\Downloader\Contract\IDownloader $diownloader */
-        $diownloader = App::getBean($downloaderAnnotation->class);
-        $response = $diownloader->download($this, $params->request, $params->proxy);
+        /** @var \Yurun\Crawler\Module\Downloader\Contract\IDownloader $downloader */
+        $downloader = App::getBean($downloaderAnnotation->class);
+        $response = $downloader->download($this, $params->request, $params->proxy);
         return $this->afterDownload($params, $response);
     }
 
