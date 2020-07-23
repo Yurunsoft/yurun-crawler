@@ -8,6 +8,7 @@ use Imi\Config;
 use Imi\Queue\Event\Param\ConsumerBeforeConsumeParam;
 use Imi\Queue\Event\Listener\IConsumerBeforeConsumeListener;
 use Yurun\Crawler\Module\Crawler\Contract\BaseCrawlerQueueMessage;
+use Yurun\Crawler\Module\Crawler\Enum\QueueMessageType;
 
 /**
  * 下载器限流
@@ -24,7 +25,7 @@ class DownloaderRateLimitListener implements IConsumerBeforeConsumeListener
     {
         $message = new BaseCrawlerQueueMessage;
         $message->loadFromJsonString($e->message->getMessage());
-        if($message->crawler && $message->crawlerItem)
+        if($message->crawler && $message->crawlerItem && QueueMessageType::DOWNLOADER === $message->messageType)
         {
             /** @var \Yurun\Crawler\Module\Crawler\Contract\BaseCrawlerItem $crawlerItem */
             $crawlerItem = App::getBean($message->crawlerItem);
