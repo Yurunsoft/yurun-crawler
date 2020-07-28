@@ -1,7 +1,0 @@
-#!/usr/bin/env php
-<?php
-$_SERVER['PWD'] = dirname(__DIR__);
-$_SERVER['argc'] += 2;
-$_SERVER['argv'][] = '-appNamespace';
-$_SERVER['argv'][] = 'Yurun\Crawler';
-require dirname(__DIR__) . '/vendor/yurunsoft/imi/bin/imi';
