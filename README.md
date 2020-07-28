@@ -1,7 +1,7 @@
 # yurun-crawler
 
 [![Latest Version](https://img.shields.io/packagist/v/yurunsoft/crawler.svg)](https://packagist.org/packages/yurunsoft/crawler)
-[![Travis](https://img.shields.io/travis/Yurunsoft/crawler.svg)](https://travis-ci.org/Yurunsoft/crawler)
+[![Travis](https://img.shields.io/travis/Yurunsoft/yurun-crawler.svg)](https://travis-ci.org/github/Yurunsoft/yurun-crawler)
 [![Php Version](https://img.shields.io/badge/php-%3E=7.1-brightgreen.svg)](https://secure.php.net/)
 [![Swoole Version](https://img.shields.io/badge/swoole-%3E=4.3.0-brightgreen.svg)](https://github.com/swoole/swoole-src)
 [![imi Doc](https://img.shields.io/badge/docs-passing-green.svg)](https://doc.imiphp.com)
