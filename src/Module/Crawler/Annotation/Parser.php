@@ -2,12 +2,13 @@
 namespace Yurun\Crawler\Module\Crawler\Annotation;
 
 use Imi\Bean\Annotation\Base;
+use Imi\Bean\Annotation\Parser as ParserAnnotation;
 
 /**
  * 声明解析器
  * @Annotation
  * @Target("CLASS")
- * @\Imi\Bean\Annotation\Parser("Imi\Bean\Parser\NullParser")
+ * @ParserAnnotation("Imi\Bean\Parser\NullParser")
  */
 class Parser extends Base
 {
