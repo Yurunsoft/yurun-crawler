@@ -48,6 +48,14 @@ return [
         'ErrorLog'          =>  [
             // 'level' =>  ,
         ],
+        'UserAgentManager'  =>  [
+            'list'  =>  [
+                // 这里可以放想要用的 UserAgent 列表
+                'a',
+                'b',
+                'c',
+            ],
+        ],
     ],
     
     // 连接池配置

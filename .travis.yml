@@ -3,6 +3,8 @@ dist: bionic
 
 matrix:
   include:
+  - php: '7.4'
+    env: SWOOLE_VERSION="v4.5.3-beta"
   - php: '7.1'
     env: SWOOLE_VERSION="v4.5.2"
   - php: '7.2'
@@ -19,6 +21,8 @@ matrix:
     env: SWOOLE_VERSION="v4.4.19"
   - php: '7.4'
     env: SWOOLE_VERSION="v4.4.19"
+  allow_failures:
+  - env: SWOOLE_VERSION="v4.5.3-beta"
 
 services:
   - redis

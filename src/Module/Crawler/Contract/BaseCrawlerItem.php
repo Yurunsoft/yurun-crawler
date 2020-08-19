@@ -6,6 +6,7 @@ use Imi\Bean\BeanFactory;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Imi\Bean\Annotation\AnnotationManager;
+use Imi\Util\Http\Consts\RequestHeader;
 use Yurun\Crawler\Module\Proxy\Model\Proxy;
 use Psr\Http\Message\ServerRequestInterface;
 use Yurun\Crawler\Module\Crawler\Annotation\Parser;
@@ -15,6 +16,7 @@ use Yurun\Crawler\Module\Crawler\Annotation\ProxyPool;
 use Yurun\Crawler\Module\Crawler\Annotation\Downloader;
 use Yurun\Crawler\Module\DataModel\Contract\IDataModel;
 use Yurun\Crawler\Module\Crawler\Annotation\CrawlerItem;
+use Yurun\Crawler\Module\Crawler\Annotation\RandomUA;
 use Yurun\Crawler\Module\Downloader\Model\DownloadParams;
 use Yurun\Crawler\Module\Processor\Model\ProcessorParams;
 
@@ -71,6 +73,19 @@ abstract class BaseCrawlerItem implements ICrawlerItem
             /** @var \Yurun\Crawler\Module\Proxy\Contract\IProxyPool $proxyPool */
             $proxyPool = App::getBean($proxyPoolAnnotation->class, ...$proxyPoolAnnotation->args);
             $params->proxy = $proxyPool->{'get' . $proxyPoolAnnotation->method . 'Proxy'}();
+        }
+        // UserAgent
+        /** @var RandomUA $randomUA */
+        $randomUA = $this->autoGetAnnotation(RandomUA::class);
+        if($randomUA && $randomUA->enable)
+        {
+            /** @var \Yurun\Crawler\Module\Downloader\Util\UserAgentManager $userAgentManager */
+            $userAgentManager = App::getBean('UserAgentManager');
+            $userAgent = $userAgentManager->getRandom();
+            if($userAgent)
+            {
+                $params->request = $params->request->withHeader(RequestHeader::USER_AGENT, $userAgent);
+            }
         }
         $downloaderAnnotation = $this->getDownloaderAnnotation();
         /** @var \Yurun\Crawler\Module\Downloader\Contract\IDownloader $downloader */
@@ -300,6 +315,25 @@ abstract class BaseCrawlerItem implements ICrawlerItem
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * 智能获取注解，可以写在：采集项、爬虫类
+     *
+     * @param string $annotationClassName
+     * @return \Imi\Bean\Annotation\Base|null
+     */
+    public function autoGetAnnotation(string $annotationClassName): ?\Imi\Bean\Annotation\Base
+    {
+        $class = BeanFactory::getObjectClass($this);
+        $annotation = AnnotationManager::getClassAnnotations($class, $annotationClassName)[0] ?? null;
+        if($annotation)
+        {
+            return $annotation;
+        }
+        $crawler = $this->getCrawler();
+        $class = BeanFactory::getObjectClass($crawler);
+        return AnnotationManager::getClassAnnotations($class, $annotationClassName)[0] ?? null;
     }
 
 }
