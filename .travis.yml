@@ -38,6 +38,7 @@ addons:
     - chromium-browser
 
 install:
+  - $CHROME_HEADLESS_PATH --version
   - dd if=/dev/zero of=swap bs=1024 count=2048000 && chmod 600 swap && sudo mkswap swap && sudo swapon swap
   - if [[ $INSTALL_REDIS_EXT == true ]]; then
       wget https://github.com/phpredis/phpredis/archive/develop.zip;
