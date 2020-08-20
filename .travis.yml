@@ -1,6 +1,9 @@
 language: php
 dist: bionic
 
+env:
+  - CHROME_HEADLESS_PATH="chromium-browser"
+
 matrix:
   include:
   - php: '7.4'
@@ -32,6 +35,7 @@ addons:
   apt:
     packages:
     - unzip
+    - chromium-browser
 
 install:
   - dd if=/dev/zero of=swap bs=1024 count=2048000 && chmod 600 swap && sudo mkswap swap && sudo swapon swap

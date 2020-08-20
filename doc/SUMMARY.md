@@ -16,6 +16,7 @@
 
 * [定时采集](features/cron.md)
 * [下载器限流](features/rateLimit.md)
+* [Chrome Headless 页面渲染采集](features/chromeHeadless.md)
 * [解析器](features/parser.md)
   * [Dom 解析](features/parser/dom.md)
   * [正则](features/parser/regular.md)

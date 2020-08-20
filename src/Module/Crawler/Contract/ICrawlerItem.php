@@ -91,4 +91,12 @@ interface ICrawlerItem
      */
     public function getName(): string;
 
+    /**
+     * 智能获取注解，可以写在：采集项、爬虫类
+     *
+     * @param string $annotationClassName
+     * @return \Imi\Bean\Annotation\Base|null
+     */
+    public function autoGetAnnotation(string $annotationClassName): ?\Imi\Bean\Annotation\Base;
+
 }

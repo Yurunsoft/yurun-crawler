@@ -2,6 +2,7 @@
 namespace Yurun\Crawler\Module\Downloader\Handler;
 
 use Yurun\Util\YurunHttp;
+use Imi\Bean\Annotation\Bean;
 use Yurun\Util\YurunHttp\Attributes;
 use Psr\Http\Message\ResponseInterface;
 use Yurun\Crawler\Module\Proxy\Model\Proxy;
@@ -11,6 +12,8 @@ use Yurun\Crawler\Module\Downloader\Contract\BaseDownloader;
 
 /**
  * 基于 YurunHttp 的下载器
+ * 
+ * @Bean("YurunHttpDownloader")
  */
 class YurunHttpDownloader extends BaseDownloader
 {

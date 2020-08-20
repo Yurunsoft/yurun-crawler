@@ -33,7 +33,7 @@ Demo Example: <https://github.com/Yurunsoft/yurun-crawler-example>
 * 高性能，基于 [imi](https://www.imiphp.com/) + [Swoole](https://www.swoole.com/) 常驻内存及协程实现
 * 分布式，采集的流程由消息队列推动，依靠 Redis 等中间件实现纯天然的分布式特性
 * 支持下载器并发限流
-* 内置解析能力强，支持：Dom 解析、正则、JSON
+* 内置解析能力强，支持：Dom 解析、正则、JSON、Chrome Headless 页面渲染采集
 * 代理 IP 池，支持：MySQL、Redis
 * 支持定时采集
 * 支持模型存储

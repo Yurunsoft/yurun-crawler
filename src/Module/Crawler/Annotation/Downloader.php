@@ -3,7 +3,6 @@ namespace Yurun\Crawler\Module\Crawler\Annotation;
 
 use Imi\Bean\Annotation\Base;
 use Imi\Bean\Annotation\Parser;
-use Yurun\Crawler\Module\Downloader\Handler\YurunHttpDownloader;
 
 /**
  * 声明下载器
@@ -24,7 +23,7 @@ class Downloader extends Base
      *
      * @var string
      */
-    public $class = YurunHttpDownloader::class;
+    public $class = 'YurunHttpDownloader';
 
     /**
      * 下载器队列名
