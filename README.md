@@ -63,7 +63,7 @@ Demo Example: <https://github.com/Yurunsoft/yurun-crawler-example>
 
 负责解析下载后的内容，从中提取需要的信息，返回数据模型。
 
-首个版本支持：Dom 解析、正则、JSON。
+支持：Dom 解析、正则、JSON、Chrome Headless 页面渲染采集。
 
 ### 处理器
 

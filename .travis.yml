@@ -1,9 +1,6 @@
 language: php
 dist: bionic
 
-env:
-  - CHROME_HEADLESS_PATH="chromium-browser"
-
 matrix:
   include:
   - php: '7.4'
@@ -69,3 +66,4 @@ env:
   global:
     - MYSQL_SERVER_USERNAME: root
     - MYSQL_SERVER_PASSWORD:
+    - CHROME_HEADLESS_PATH: chromium-browser
