@@ -58,7 +58,7 @@ before_script:
   - mysql -e 'CREATE DATABASE IF NOT EXISTS db_yurun_crawler_test;' && vendor/bin/imi generate/table -appNamespace "Yurun\Crawler\Test"
 
 script:
-  - sudo ./tests/run
+  - ./tests/run
 
 env:
   global:
