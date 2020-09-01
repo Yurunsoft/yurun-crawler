@@ -15,9 +15,7 @@ Yurun Crawler 基于 imi 框架开发，运行在 Swoole 常驻内存的协程�
 
 为什么会开发这个框架？遇上有爬虫相关需求，调研了一些市面上现有的 PHP 爬虫框架，甚至是其它语言的爬虫框架，功能都十分简陋，需要编写的重复代码极多，不够一把梭。
 
-开发手册：<https://doc.yurunsoft.com/yurun-crawler/>
-
-Demo Example: <https://github.com/Yurunsoft/yurun-crawler-example>
+**开发手册：**<https://doc.yurunsoft.com/yurun-crawler/>
 
 ### 目标
 
@@ -29,15 +27,64 @@ Demo Example: <https://github.com/Yurunsoft/yurun-crawler-example>
 
 ## 功能特性
 
-* 低代码，几乎不需要编写代码，大部分逻辑依靠注解实现
-* 高性能，基于 [imi](https://www.imiphp.com/) + [Swoole](https://www.swoole.com/) 常驻内存及协程实现
-* 分布式，采集的流程由消息队列推动，依靠 Redis 等中间件实现纯天然的分布式特性
-* 支持下载器并发限流
-* 内置解析能力强，支持：Dom 解析、正则、JSON、Chrome Headless 页面渲染采集
-* 代理 IP 池，支持：MySQL、Redis
-* 支持定时采集
-* 支持模型存储
-* 易扩展
+* **低代码**，几乎不需要编写代码，大部分逻辑依靠注解实现
+* **高性能**，基于 [imi](https://www.imiphp.com/) + [Swoole](https://www.swoole.com/) 常驻内存及协程实现。即便只开一个下载器进程，也足以支撑大量的并发下载任务。
+* **分布式**，采集的流程由消息队列推动，依靠 Redis 等中间件实现纯天然的分布式特性
+* 支持下载器并发**限流**
+* 内置解析能力强，支持：**Dom 解析、正则、JSON、Chrome Headless 页面渲染采集**
+* **代理 IP 池**，支持：MySQL、Redis
+* 支持**定时采集**
+* 支持**模型存储**
+* 方便扩展
+
+## 示例
+
+**Demo Example:** <https://github.com/Yurunsoft/yurun-crawler-example>
+
+主要采集逻辑，可通过注解的方式来编写，超级简单：
+
+```php
+<?php
+namespace Yurun\CrawlerApp\Module\YurunBlog\Article\Model;
+
+use Yurun\Crawler\Module\Parser\Annotation\DomSelect;
+use Yurun\Crawler\Module\Parser\Enum\DomSelectMethod;
+use Yurun\Crawler\Module\DataModel\Contract\BaseDataModel;
+
+/**
+ * 文章内容模型
+ */
+class ArticleModel extends BaseDataModel
+{
+    /**
+     * 标题
+     * 
+     * @DomSelect(selector=".article-view h1", method=DomSelectMethod::TEXT)
+     *
+     * @var string
+     */
+    public $title;
+
+    /**
+     * 内容
+     *
+     * @DomSelect(selector=".article-content", method=DomSelectMethod::HTML)
+     * 
+     * @var string
+     */
+    public $content;
+
+    /**
+     * 时间
+     *
+     * @DomSelect(selector=".article-info .time", method=DomSelectMethod::TEXT)
+     *
+     * @var string
+     */
+    public $time;
+
+}
+```
 
 ## 概念
 
@@ -79,6 +126,6 @@ Demo Example: <https://github.com/Yurunsoft/yurun-crawler-example>
 
 ## 联系我们
 
-QQ 群：17916227 [![点击加群](https://pub.idqqimg.com/wpa/images/group.png "点击加群")](https://jq.qq.com/?_wv=1027&k=5wXf4Zq)
+免费技术支持、交流群：17916227 [![点击加群](https://pub.idqqimg.com/wpa/images/group.png "点击加群")](https://jq.qq.com/?_wv=1027&k=5wXf4Zq)
 
 商业合作 QQ：369124067
