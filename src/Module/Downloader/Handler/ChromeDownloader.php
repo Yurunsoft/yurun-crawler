@@ -113,7 +113,8 @@ class ChromeDownloader extends BaseDownloader
                 throw new \RuntimeException('Not found webSocketDebuggerUrl');
             }
             $connection = new Connection($data[0]['webSocketDebuggerUrl']);
-            if(!$connection->connect())
+            $connection->connect();
+            if(!$connection->isConnected())
             {
                 throw new \RuntimeException('Connect to chrome failed');
             }
