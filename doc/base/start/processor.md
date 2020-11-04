@@ -42,4 +42,4 @@ class ArticleProcessor implements IProcessor
 
 ## 内置处理器
 
-<a href="/features/modelStorage.html">模型存储处理器</a>
+<a href="../../features/modelStorage.html">模型存储处理器</a>

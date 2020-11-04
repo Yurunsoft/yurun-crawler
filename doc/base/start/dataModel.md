@@ -75,4 +75,4 @@ class ArticleListModel extends BaseDataModel
 
 ## 注解
 
-详见解析器章节：<a href="/features/parser/dom.html">链接</a>
+详见解析器章节：<a href="../../features/parser/dom.html">链接</a>
